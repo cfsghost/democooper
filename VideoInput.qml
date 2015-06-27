@@ -3,6 +3,17 @@ import QtAV 1.3 as QtAV
 
 Item {
 
+	Timer {
+		id: retry;
+		interval: 1000;
+		running: false;
+		repeat: false;
+
+		onTriggered: {
+			player.play();
+		}
+	}
+
 	QtAV.MediaPlayer {
 		id: player;
 		useWallclockAsTimestamps: true;
@@ -15,7 +26,8 @@ Item {
 		}
 		onError: {
 			// Retry
-			this.play();
+			retry.start();
+			//this.play();
 			console.log(error, errorString);
 		}
 	}

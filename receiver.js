@@ -89,7 +89,7 @@ http.createServer(function(req, res) {
 	res.writeHead(200, {
 		'Content-Type': 'multipart/x-mixed-replace; boundary=myboundary',
 //		'Content-Type': 'video/mp4',
-		'Cache-Control': 'no-cache',
+		'Cache-Control': 'Cache-Control: no-store, no-cache, must-revalidate, pre-check=0, post-check=0, max-age=0',
 		'Connection': 'close',
 		'Pragma': 'no-cache'
 //		'Transfer-Encoding': 'chunked'
@@ -104,7 +104,8 @@ http.createServer(function(req, res) {
 		var data = packet.slice(4, packet.length);
 
 		if (part == 0) {
-			res.write('\n--myboundary\nContent-Type: image/jpeg\n\n');
+			res.write('\n--myboundary\nContent-Type: image/jpeg\n');
+			res.write('X-Timestamp: 0.000000\n\n');
 			res.write(data);
 			started = true;
 		} else if (started) {
